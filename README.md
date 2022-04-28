@@ -114,7 +114,7 @@ For custom config file use:
 ### Examples
 
 ```sh
-telegram-notify --success --text "Action *sucessful* with markdown *bold* example"
+telegram-notify --success --text "Action *successful* with markdown *bold* example"
 ```
 ```sh
 telegram-notify --error --title "Error" --text "Error message with a title"
