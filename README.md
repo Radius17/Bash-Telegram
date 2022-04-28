@@ -108,6 +108,9 @@ socks-proxy=
 ```
 When calling the notification script these default parameters may be surcharged with --user and --key parameters.
 
+For custom config file use:
+>  --config path_to_file/telegram-notify.conf
+
 ### Examples
 
 ```sh
