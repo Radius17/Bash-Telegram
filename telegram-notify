@@ -21,6 +21,9 @@
 # ---------------------------------------------------
 
 # initialise variables
+LINE_BREAK=$'\n'
+#LINE_BREAK="%0A" 
+
 NOTIFY_TEXT=""
 DISPLAY_TEXT=""
 DISPLAY_CODE=""
@@ -168,8 +171,8 @@ DISPLAY_CODE="$(echo "${DISPLAY_CODE}" | sed 's:\\n:\n:g')"
 if [ "${DISPLAY_TITLE}" != "" ]
 then
 	# convert title according to Markdown or HTML
-	[ "${DISPLAY_MODE}" = "html" ] && NOTIFY_TEXT="${NOTIFY_TEXT}<b>${DISPLAY_TITLE}</b>%0A%0A" \
-				       || NOTIFY_TEXT="${NOTIFY_TEXT}*${DISPLAY_TITLE}*%0A%0A"
+	[ "${DISPLAY_MODE}" = "html" ] && NOTIFY_TEXT="${NOTIFY_TEXT}<b>${DISPLAY_TITLE}</b>${LINE_BREAK}${LINE_BREAK}" \
+				       || NOTIFY_TEXT="${NOTIFY_TEXT}*${DISPLAY_TITLE}*${LINE_BREAK}${LINE_BREAK}"
 fi
 
 # if text defined, replace \n by HTML line break
@@ -192,13 +195,13 @@ ARR_OPTIONS=( "--silent" "--insecure" )
 if [ "${PICTURE}" != "" ]
 then
   # display image
-  CURL_RESULT=$(curl "${ARR_OPTIONS[@]}" --form chat_id=${USER_ID} --form disable_notification=${DISPLAY_SILENT} --form protect_content=${PROTECT} --form disable_web_page_preview=${DISABLE_PREVIEW} --form photo="@${PICTURE}" --form caption="${NOTIFY_TEXT}" "https://api.telegram.org/bot${API_KEY}/sendPhoto")
+  CURL_RESULT=$(curl "${ARR_OPTIONS[@]}" --form chat_id=${USER_ID} --form disable_notification=${DISPLAY_SILENT} --form protect_content=${PROTECT} --form disable_web_page_preview=${DISABLE_PREVIEW} --form parse_mode=${DISPLAY_MODE} --form photo="@${PICTURE}" --form caption="${NOTIFY_TEXT}" "https://api.telegram.org/bot${API_KEY}/sendPhoto")
 
 # if document defined, send it with icon and caption
 elif [ "${DOCUMENT}" != "" ]
 then
   # transfer document
-  CURL_RESULT=$(curl "${ARR_OPTIONS[@]}" --form chat_id=${USER_ID} --form disable_notification=${DISPLAY_SILENT} --form protect_content=${PROTECT} --form disable_web_page_preview=${DISABLE_PREVIEW} --form document="@${DOCUMENT}" --form caption="${NOTIFY_TEXT}" "https://api.telegram.org/bot${API_KEY}/sendDocument")
+  CURL_RESULT=$(curl "${ARR_OPTIONS[@]}" --form chat_id=${USER_ID} --form disable_notification=${DISPLAY_SILENT} --form protect_content=${PROTECT} --form disable_web_page_preview=${DISABLE_PREVIEW} --form parse_mode=${DISPLAY_MODE} --form document="@${DOCUMENT}" --form caption="${NOTIFY_TEXT}" "https://api.telegram.org/bot${API_KEY}/sendDocument")
 
 # else, if text is defined, display it with icon and title
 elif [ "${NOTIFY_TEXT}" != "" ]
