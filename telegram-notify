@@ -186,7 +186,8 @@ fi
 # -------------------------------------------------------
 
 # default option
-ARR_OPTIONS=( "--silent" "--insecure" )
+# every part (name or val) as separate element
+ARR_OPTIONS=( "--silent" "--insecure" "--connect-timeout" "7")
 
 # if needed, socks5 option
 [ "${SOCKS_PROXY}" != "" ] && ARR_OPTIONS=( "${ARR_OPTIONS[@]}" "--socks5-hostname" "${SOCKS_PROXY}" )
